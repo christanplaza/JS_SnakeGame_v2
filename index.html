@@ -19,7 +19,7 @@
 
       var width = 500;
       var height = 500;
-      var snakeList, foodList;
+      var snakeList, foodList, direction;
 
       ctx.font = "20px Calibri";
 
@@ -33,6 +33,52 @@
         width: 20,
         height: 20,
         color: "orange",
+      };
+
+      document.onkeydown = function (event) {
+        if (event.key == "ArrowUp") {
+          direction = "up";
+        } else if (event.key == "ArrowDown") {
+          direction = "down";
+        } else if (event.key == "ArrowLeft") {
+          direction = "left";
+        } else if (event.key == "ArrowRight") {
+          direction = "right";
+        }
+      };
+
+      updateSnakeList = function () {
+        for (var i = snakeList.length - 1; i >= 0; i--) {
+          if (direction == "left") {
+            if (i == 0) {
+              snakeList[i].x = snakeList[i].x - 20;
+            } else {
+              snakeList[i].x = snakeList[i - 1].x;
+              snakeList[i].y = snakeList[i - 1].y;
+            }
+          } else if (direction == "right") {
+            if (i == 0) {
+              snakeList[i].x = snakeList[i].x + 20;
+            } else {
+              snakeList[i].x = snakeList[i - 1].x;
+              snakeList[i].y = snakeList[i - 1].y;
+            }
+          } else if (direction == "up") {
+            if (i == 0) {
+              snakeList[i].y = snakeList[i].y - 20;
+            } else {
+              snakeList[i].x = snakeList[i - 1].x;
+              snakeList[i].y = snakeList[i - 1].y;
+            }
+          } else if (direction == "down") {
+            if (i == 0) {
+              snakeList[i].y = snakeList[i].y + 20;
+            } else {
+              snakeList[i].x = snakeList[i - 1].x;
+              snakeList[i].y = snakeList[i - 1].y;
+            }
+          }
+        }
       };
 
       drawFood = function (f, i) {
@@ -55,6 +101,12 @@
         ctx.restore();
       };
 
+      updateSnakePosition = function () {
+        ctx.clearRect(0, 0, width, height);
+        snakeList.forEach(drawSnake);
+        updateSnakeList();
+      };
+
       startGame = function () {
         // Our starting Snake, which has a length of 3
         snakeList = [
@@ -64,9 +116,8 @@
         ];
 
         foodList = [];
-
-        // For each item in snakeList, call drawSnake
-        snakeList.forEach(drawSnake);
+        direction = "";
+        setInterval(updateSnakePosition, 100);
       };
 
       startGame();
