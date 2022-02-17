@@ -19,9 +19,16 @@
 
       var width = 500;
       var height = 500;
-      var snakeList, foodList, direction, eaten, intervalVar, score;
+      var snakeList,
+        foodList,
+        direction,
+        eaten,
+        intervalVar,
+        score,
+        running = false;
 
       ctx.font = "20px Calibri";
+      ctx.fillText("Click me to start the game", 140, 250);
 
       var snakeBody = {
         width: 20,
@@ -35,14 +42,22 @@
         color: "orange",
       };
 
+      document.getElementById("ctx").onmousedown = function () {
+        if (running) {
+          clearInterval(intervalVar);
+          running = false;
+        }
+        startGame();
+      };
+
       document.onkeydown = function (event) {
-        if (event.key == "ArrowUp") {
+        if (event.key == "ArrowUp" && direction != "down") {
           direction = "up";
-        } else if (event.key == "ArrowDown") {
+        } else if (event.key == "ArrowDown" && direction != "up") {
           direction = "down";
-        } else if (event.key == "ArrowLeft") {
+        } else if (event.key == "ArrowLeft" && direction != "right") {
           direction = "left";
-        } else if (event.key == "ArrowRight") {
+        } else if (event.key == "ArrowRight" && direction != "left") {
           direction = "right";
         }
       };
@@ -124,6 +139,7 @@
           }
           if (testSnakeCollision(snakeList[0], snakeList[i])) {
             clearInterval(intervalVar);
+            ctx.fillText("Game Over. Click to restart", 150, 250);
             return;
           }
         }
@@ -198,10 +214,9 @@
         direction = "";
         eaten = true;
         score = 0;
+        running = true;
         intervalVar = setInterval(updateSnakePosition, 100);
       };
-
-      startGame();
     </script>
   </body>
 </html>
