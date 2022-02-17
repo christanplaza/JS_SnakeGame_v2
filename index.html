@@ -81,6 +81,15 @@
         }
       };
 
+      testCollision = function (sb, f) {
+        return (
+          sb.x <= f.x + food.width &&
+          f.x <= sb.x + snakeBody.width &&
+          sb.y <= f.y + food.height &&
+          f.y <= sb.y + snakeBody.height
+        );
+      };
+
       drawFood = function (f, i) {
         ctx.save();
 
@@ -126,6 +135,30 @@
         }
         foodList.forEach(drawFood);
         snakeList.forEach(drawSnake);
+
+        if (testCollision(snakeList[0], foodList[0])) {
+          foodList = [];
+          eaten = true;
+          var new_x, new_y;
+          if (direction == "left") {
+            new_x = snakeList[0].x - 20;
+            new_y = snakeList[0].y;
+          }
+          if (direction == "up") {
+            new_x = snakeList[0].x;
+            new_y = snakeList[0].y - 20;
+          }
+          if (direction == "right") {
+            new_x = snakeList[0].x + 20;
+            new_y = snakeList[0].y;
+          }
+          if (direction == "down") {
+            new_x = snakeList[0].x;
+            new_y = snakeList[0].y + 20;
+          }
+
+          snakeList.unshift({ x: new_x, y: new_y });
+        }
         checkSnakePosition();
         updateSnakeList();
       };
