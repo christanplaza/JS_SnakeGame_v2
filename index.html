@@ -19,6 +19,7 @@
 
       var width = 500;
       var height = 500;
+      var snakeList, foodList;
 
       ctx.font = "20px Calibri";
 
@@ -33,6 +34,42 @@
         height: 20,
         color: "orange",
       };
+
+      drawFood = function (f, i) {
+        ctx.save();
+
+        ctx.fillStyle = food.color;
+        ctx.fillRect(f.x, f.y, food.width, food.height);
+
+        ctx.restore();
+      };
+
+      drawSnake = function (sb, i) {
+        ctx.save();
+
+        if (i == 0) ctx.fillStyle = "black";
+        else ctx.fillStyle = snakeBody.color;
+
+        ctx.fillRect(sb.x, sb.y, snakeBody.width, snakeBody.height);
+
+        ctx.restore();
+      };
+
+      startGame = function () {
+        // Our starting Snake, which has a length of 3
+        snakeList = [
+          { x: 220, y: 200 },
+          { x: 200, y: 200 },
+          { x: 180, y: 200 },
+        ];
+
+        foodList = [];
+
+        // For each item in snakeList, call drawSnake
+        snakeList.forEach(drawSnake);
+      };
+
+      startGame();
     </script>
   </body>
 </html>
