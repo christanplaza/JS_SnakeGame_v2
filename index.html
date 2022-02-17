@@ -19,7 +19,7 @@
 
       var width = 500;
       var height = 500;
-      var snakeList, foodList, direction, eaten, intervalVar;
+      var snakeList, foodList, direction, eaten, intervalVar, score;
 
       ctx.font = "20px Calibri";
 
@@ -158,6 +158,7 @@
         if (testCollision(snakeList[0], foodList[0])) {
           foodList = [];
           eaten = true;
+          score += 5;
           var new_x, new_y;
           if (direction == "left") {
             new_x = snakeList[0].x - 20;
@@ -178,6 +179,8 @@
 
           snakeList.unshift({ x: new_x, y: new_y });
         }
+
+        ctx.fillText("Score: " + score, 400, 30);
         isGameOver();
         checkSnakePosition();
         updateSnakeList();
@@ -194,6 +197,7 @@
         foodList = [];
         direction = "";
         eaten = true;
+        score = 0;
         intervalVar = setInterval(updateSnakePosition, 100);
       };
 
